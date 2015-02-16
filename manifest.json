@@ -19,11 +19,21 @@
     },
     "utility": {
       "help": "Creates some helpful utility recipes"
+    },
+    "mysql": {
+      "help": "Creates some MySQL recipes"
+    },
+    "newrelic": {
+      "help": "Basic newrelic"
+    },
+    "postgres": {
+      "help": "Creates a postgres recipe"
     }
   },
   "base": {
     "files": [
       ".gitignore",
+      ".kitchen.yml",
       "Berksfile",
       "CHANGELOG.md",
       "Gemfile",
@@ -31,7 +41,11 @@
       "README.md",
       "recipes/default.rb",
       "test/unit/spec/default_spec.rb",
-      "test/unit/spec/spec_helper.rb"
+      "test/unit/spec/spec_helper.rb",
+      "test/integration/encrypted_data_bag_secret",
+      "test/integration/default/serverspec/spec_helper.rb",
+      "test/integration/default/serverspec/default_spec.rb"
+
     ],
     "directories": [
       "attributes",
@@ -41,7 +55,9 @@
       "recipes",
       "resources",
       "templates",
-      "test/unit/spec"
+      "test/unit/spec",
+      "test/integration/data_bags",
+      "test/integration/default/serverspec"
     ]
   }
 }

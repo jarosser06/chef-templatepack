@@ -1,18 +1,18 @@
 {
-  "id": "memcached",
-  "default_stencil": "default",
+  "id": "newrelic",
   "api": 1,
+  "default_stencil": "default",
   "dependencies": {
-    "rackspace_iptables": {},
-    "memcached": {}
+    "newrelic": {}
   },
   "options": {
     "name": {
       "help": "Name of the recipe to create",
-      "default": "memcached"
+      "default": "newrelic"
     },
-    "openfor": {
-      "help": "Tag to open the memcached firewall for, if environment is passed it will open for the whole environment"
+    "databag": {
+      "help": "Databag name with the newrelic item",
+      "default": "secrets"
     }
   },
   "stencils": {
