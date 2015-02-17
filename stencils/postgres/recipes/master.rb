@@ -7,7 +7,7 @@
 
 include_recipe 'chef-sugar'
 include_recipe 'pg-multi::pg_master'
-include_recipe 'potgresql::ruby'
+include_recipe 'postgresql::ruby'
 
 {% if options['database'] != "" %}
 {% if options['databag'] != "" %}
