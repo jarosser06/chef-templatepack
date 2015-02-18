@@ -8,7 +8,7 @@
 include_recipe 'mysql-multi::mysql-master'
 include_recipe 'database::mysql'
 
-{% if options['database'] != "" %}
+{% if options['database'] != "" -%}
 conn = {
   host: 'localhost',
   username: 'root',
@@ -29,6 +29,7 @@ end
 mysql_database_user mysql_creds['username'] do
   connection conn
   password mysql_creds['password']
+  privileges [ :all ]
   database_name |{ qstring(options['database']) }|
   action :create
 end
@@ -41,14 +42,15 @@ end
 mysql_database_user |{ options['user'] }| do
   connection conn
   password |{ options['password'] }|
+  privileges [ :all ]
   database_name |{ qstring(options['database']) }|
   action :create
 end
 {% endif %}
 {% endif %}
 
-{% if .options['openfor'] != "" %}
-{% if options['openfor'] == "environment" }|
+{% if options['openfor'] != "" %}
+{% if options['openfor'] == "environment" %}
 search_add_iptables_rules("chef_environment:#{node.chef_environment}",
                           'INPUT',
                           "-m #{proto} -p #{proto} --dport #{node['mysql']['port']} -j ACCEPT",
@@ -67,4 +69,4 @@ search_add_iptables_rules("chef_environment:#{node.chef_environment} AND tags:|{
                           9999,
                           'Open port for Mysql')
 {% endif %}
-{% endif %}
+{% endif -%}
