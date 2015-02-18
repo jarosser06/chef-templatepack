@@ -4,6 +4,7 @@
   "default_stencil": "generic",
   "dependencies": {
     "rackspace_iptables": {},
+    "chef-sugar-rackspace": {},
     "rabbitmq": {}
   },
   "options": {

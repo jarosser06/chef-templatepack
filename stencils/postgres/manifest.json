@@ -7,7 +7,7 @@
     "postgresql": {},
     "database": {},
     "pg-multi": {},
-    "chef-sugar": {}
+    "chef-sugar-rackspace": {}
   },
   "options": {
     "name": {

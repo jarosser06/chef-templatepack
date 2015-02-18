@@ -5,7 +5,7 @@
 # Copyright |{ cookbook['year'] }|, Rackspace
 #
 
-include_recipe 'chef-sugar'
+include_recipe 'chef-sugar-rackspace'
 
 tag '|{ options['clustertag'] }|'
 
@@ -17,14 +17,14 @@ rabbit_nodes = search(:node, "chef_environment:#{node.chef_environment} AND tags
 
 cluster_nodes = []
 rabbit_nodes.each do |rabbit_node|
-  node_ip = best_ip_for(rabbit_node)
+  node_ip = best_rackspace_ip_for(rabbit_node)
   cluster_nodes.push "rabbit@#{node_ip}"
   add_iptables_rules('INPUT', "-s #{node_ip} -j ACCEPT", 70, 'rabbitmq cluster access')
 end
 
 node.default['rabbitmq']['cluster'] = true
 node.default['rabbitmq']['cluster_disk_nodes'] = cluster_nodes
-{i% end %}
+{% endif %}
 
 include_recipe 'rabbitmq'
 
@@ -34,4 +34,4 @@ search_add_iptables_rules("chef_environment:#{node.chef_environment} AND tags:|{
                           "-p tcp --dport #{node['rabbitmq']['port']} -j ACCEPT",
                           70,
                           ['access to rabbitmq')
-{% end %}
+{% endif %}

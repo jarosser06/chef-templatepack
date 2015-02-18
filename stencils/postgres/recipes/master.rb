@@ -5,7 +5,7 @@
 # Copyright |{ cookbook['year'] }|, Rackspace
 #
 
-include_recipe 'chef-sugar'
+include_recipe 'chef-sugar-rackspace'
 include_recipe 'pg-multi::pg_master'
 include_recipe 'postgresql::ruby'
 
@@ -58,7 +58,7 @@ unless openfor.empty?
       type: 'host',
       db: |{ qstring(options['database']) }|,
       user: pg_user,
-      addr: "#{best_ip_for(n)}/32",
+      addr: "#{best_rackspace_ip_for(n)}/32",
       method: 'md5'
     }
   end

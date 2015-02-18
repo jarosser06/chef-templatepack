@@ -1,12 +1,12 @@
 #
-# Cookbook Name:: |{ cookbook['name']} |
+# Cookbook Name:: |{ cookbook['name'] }|
 # Recipe :: |{ options['name'] }|
 #
 # Copyright |{ cookbook['year'] }|, Rackspace
 #
 
 include_recipe 'nginx'
-include_recipe 'chef-sugar'
+include_recipe 'chef-sugar-rackspace'
 include_recipe '|{ cookbook['name'] }|::_ruby_common'
 
 {% if options['dbcredentials'] != "" %}
@@ -31,15 +31,15 @@ application app_name do
     bundler true
     bundle_command bundle_cmd
     precompile_assets true
-    {% if options['dbcredentials'] != "" %}
+{% if options['dbcredentials'] != "" %}
     database do
       adapter |{ qstring(options['dbadapter']) }|
-      host best_ip_for(db_master)
+      host best_rackspace_ip_for(db_master)
       database db_credentials['database']
       username db_credentials['username']
       password db_credentials['password']
     end
-    {% endif %}
+{% endif %}
   end
 
   create_dirs_before_symlink %w(tmp tmp/cache)
@@ -80,11 +80,11 @@ template app_name do
   mode 0644
   variables({
     app_name: app_name,
-    {% if options['hostname'] == "" %}
+{% if options['hostname'] == "" %}
     hostname: app_name,
-    {% else %}
-    hostname: |{ qstring(options['hostname']) }|
-    {% endif %}
+{% else %}
+    hostname: |{ qstring(options['hostname']) }|,
+{% endif %}
     socket: unicorn_socket,
     root: File.join(app_path, current)
   })
