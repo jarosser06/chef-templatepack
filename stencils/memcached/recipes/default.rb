@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: |{ cookbookd['name'] }|
+# Cookbook Name:: |{ cookbook['name'] }|
 # Recipe :: |{ options['name'] }|
 #
 # Copyright |{ cookbook['year'] }|, Rackspace
@@ -27,6 +27,6 @@ include_recipe 'memcached'
                             "-m #{proto} -p #{proto} --dport #{node['memcached']['port']} -j ACCEPT",
                             9999,
                             'Open port for memcached')
-{% end %}
+{% endif %}
 end
-{% end %}
+{% endif %}
