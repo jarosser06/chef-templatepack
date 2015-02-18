@@ -9,8 +9,8 @@ include_recipe 'chef-sugar'
 include_recipe 'pg-multi::pg_master'
 include_recipe 'postgresql::ruby'
 
-{% if options['database'] != "" %}
-{% if options['databag'] != "" %}
+{% if options['database'] != "" -%}
+{% if options['databag'] != "" -%}
 pg_creds = Chef::EncryptedDataBagItem.load(
   '|{ options['databag'] }|',
   node.chef_environment
@@ -18,10 +18,10 @@ pg_creds = Chef::EncryptedDataBagItem.load(
 
 pg_user = pg_creds['username']
 pg_password = pg_creds['password']
-{% else %}
+{% else -%}
 pg_user = |{ qstring(options['user']) }|
 pg_password = |{ qstring(options['password']) }|
-{% endif %}
+{% endif -%}
 
 conn = {
   host: 'localhost',
@@ -42,14 +42,14 @@ postgresql_database_user pg_user do
   privileges [:all]
 end
 
-{% if options['openfor'] != "" %}
-{ if options['openfor'] == "environment" }|
+{% if options['openfor'] != "" -%}
+{% if options['openfor'] == "environment" -%}
 openfor = search(:node, "chef_environment:#{node.chef_environment}")
-{% elif options['openfor'] == "all" %}
+{% elif options['openfor'] == "all" -%}
 openfor = search(:node, 'nodes:*')
-{% else %}
-openfor = search(:node, "chef_environment:#{node.chef_environment} AND tags:|{.Options.Openfor}|")
-{% endif %}
+{% else -%}
+openfor = search(:node, "chef_environment:#{node.chef_environment} AND tags:|{ options['openfor'] }|")
+{% endif -%}
 
 unless openfor.empty?
   openfor.each do |n|
@@ -63,27 +63,27 @@ unless openfor.empty?
     }
   end
 end
-{% end %}
-{% end %}
+{% endif -%}
+{% endif -%}
 
-{% if options['openfor'] != "" %}
-{% if options['openfor'] == "environment" %}
+{% if options['openfor'] != "" -%}
+{% if options['openfor'] == "environment" -%}
 search_add_iptables_rules("chef_environment:#{node.chef_environment}",
                           'INPUT',
                           "-m #{proto} -p #{proto} --dport #{node['postgresql']['config']['port']} -j ACCEPT",
                           9999,
                           'Open port for postgres')
-{% elif options['openfor'] == "all" %}
+{% elif options['openfor'] == "all" -%}
 search_add_iptables_rules("nodes:*",
                           'INPUT',
                           "-m #{proto} -p #{proto} --dport #{node['postgresql']['config']['port']} -j ACCEPT",
                           9999,
                           'Open port for postgres')
-{% else %}
+{% else -%}
 search_add_iptables_rules("chef_environment:#{node.chef_environment} AND tags:|{ options['openfor'] }|",
                           'INPUT',
                           "-m #{proto} -p #{proto} --dport #{node['postgresql']['config']['port']} -j ACCEPT",
                           9999,
                           'Open port for postgres')
-{% end %}
-{% end %}
+{% endif -%}
+{% endif -%}

@@ -12,15 +12,15 @@ app_name = |{ qstring(options['name']) }|
 app_path = File.join(|{ qstring(options['root']) }|, |{ qstring(options['name']) }|)
 
 deploy_keys = Chef::EncryptedDataBagItem.load('secrets', 'deploy_keys')
-{% if options['dbcredentials'] != "" %}
+{% if options['dbcredentials'] != "" -%}
 db_credentials = Chef::EncryptedDataBagItem.load(|{ qstring(options['dbcredentials']) }|, node.chef_environment)
-{% endif %}
+{% endif -%}
 
-{% if options['dbsearch'] != "" %}
+{% if options['dbsearch'] != "" -%}
 db_master = best_ip_for(search(:node, "chef_environment:#{node.chef_environment} AND tags:|{ options['dbsearch']}|").first)
-{% else %}
+{% else -%}
 db_master = |{ qstring(options['dbmaster']) }|
-{% endif %}
+{% endif -%}
 
 directory '|{ options['root'] }|/.ssh' do
   owner |{ qstring(options['owner']) }|
@@ -44,13 +44,13 @@ application app_name do
   django do
     requirements true
     packages %(uwsgi django)
-    {% if options['dbcredentials'] != "" %}
+  {% if options['dbcredentials'] != "" %}
     database do
       database db_credentials['database']
       username db_credentials['username']
       password db_credentials['password']
     end
-    {% endif %}
+  {% endif -%}
   end
 end
 
@@ -87,11 +87,11 @@ template File.join(node['nginx']['dir'], "sites-available", app_name) do
   group 'root'
   mode '0644'
   variables(
-  {% if options['hostname'] != "" %}
-    hostname: |{ options['hostname'] }|,
-  {% else %}
+    {% if options['hostname'] != "" -%}
+    hostname: |{ qstring(options['hostname']) }|,
+    {% else -%}
     hostname: app_name,
-  {% endif %}
+    {% endif -%}
     error_log: File.join(node['nginx']['log_dir'], "#{app_name}-error.log"),
     access_log: File.join(node['nginx']['log_dir'], "#{app_name}-access.log"),
     app_name: app_name,
