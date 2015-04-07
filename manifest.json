@@ -8,6 +8,9 @@
     "rabbitmq": {
       "help": "Creates a rabbitmq server"
     },
+    "rackspace": {
+      "help": "Rackspace"
+    },
     "redis": {
       "help": "Creates a redis recipe"
     },

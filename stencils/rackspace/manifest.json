@@ -1,0 +1,23 @@
+{
+  "id": "rackspace",
+  "default_stencil": "rack",
+  "api": 1,
+  "dependencies": {},
+  "options": {
+    "name": {
+      "help": "Name of the recipe to create",
+      "default": "_rack"
+    }
+  },
+  "stencils": {
+    "rack": {
+      "dependencies": {
+        "sudo": {}
+      },
+      "files": {
+        "recipes/<NAME>.rb": "recipes/_rack.rb",
+        "test/unit/spec/<NAME>_spec.rb": "test/unit/spec/_rack_spec.rb"
+      }
+    }
+  }
+}
