@@ -2,6 +2,9 @@
   "api": 1,
   "framework": "chef",
   "stencil_sets": {
+    "omnibus": {
+      "help": "Generates a recipe for the Omnibus updater"
+    },
     "rails": {
       "help": "Creates a rails application recipe based on the type, defaults to Apache"
     },
