@@ -5,6 +5,6 @@
 # Copyright |{ cookbook['year'] }|, Rackspace
 #
 
-node['omnibus_updater']['version'] = '|{ options['version'] }|'
+node.default['omnibus_updater']['version'] = '|{ options['version'] }|'
 
 include_recipe 'omnibus_updater'
