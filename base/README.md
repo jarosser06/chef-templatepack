@@ -1,4 +1,4 @@
-{{ cookbook['name'] }} Cookbook
+|{ cookbook['name'] }| Cookbook
 ===============================
 Check [here](TROUBLESHOOTING.md) for troubleshooting help
 
@@ -33,4 +33,4 @@ schema and run list here.
 
 ###Web Server
 - `Naming` - `<env>-web-<#>`
-- `Run list` - `recipe[{{ cookbook['name'] }}]`
+- `Run list` - `recipe[|{ cookbook['name'] }|]`
